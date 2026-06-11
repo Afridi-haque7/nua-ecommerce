@@ -1,0 +1,58 @@
+.picker {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid $color-line-strong;
+  border-radius: $radius-pill;
+  background: $color-surface;
+}
+
+.step {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-pill;
+  color: $color-ink;
+  transition: background $dur-fast $ease-out, color $dur-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    background: $color-surface-sunk;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    color: $color-ink-faint;
+    cursor: not-allowed;
+  }
+}
+
+.value {
+  text-align: center;
+  font-weight: $weight-semibold;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+.md {
+  .step {
+    width: 40px;
+    height: 40px;
+  }
+  .value {
+    min-width: 40px;
+  }
+}
+
+.sm {
+  .step {
+    width: 32px;
+    height: 32px;
+  }
+  .value {
+    min-width: 32px;
+    font-size: $text-sm;
+  }
+}

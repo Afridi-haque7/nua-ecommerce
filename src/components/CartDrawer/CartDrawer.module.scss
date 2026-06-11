@@ -1,0 +1,199 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay;
+  background: $color-overlay;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $dur-base $ease-out, visibility $dur-base $ease-out;
+
+  &[data-open='true'] {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: $z-drawer;
+  width: $drawer-width;
+  max-width: 100vw;
+  transform: translateX(100%);
+  transition: transform $dur-base $ease-out;
+  will-change: transform;
+
+  &[data-open='true'] {
+    transform: translateX(0);
+  }
+
+  @include below('mobile') {
+    width: 100vw;
+  }
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $color-surface;
+  box-shadow: $shadow-lg;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $color-line;
+}
+
+.heading {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $text-md;
+  font-weight: $weight-semibold;
+}
+
+.count {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  color: $color-accent;
+  background: $color-accent-soft;
+  border-radius: $radius-pill;
+  padding: 1px $space-2;
+}
+
+.close {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-pill;
+  color: $color-ink;
+  transition: background $dur-fast $ease-out;
+
+  &:hover {
+    background: $color-surface-sunk;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Items -------------------------------------------------------------------
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 $space-5;
+
+  // Trim the last item's divider.
+  li:last-child {
+    border-bottom: none;
+  }
+}
+
+// Empty state -------------------------------------------------------------
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: $space-2;
+  padding: $space-6;
+  color: $color-ink-soft;
+}
+
+.emptyTitle {
+  margin-top: $space-2;
+  font-size: $text-md;
+  font-weight: $weight-semibold;
+  color: $color-ink;
+}
+
+.emptyHint {
+  font-size: $text-sm;
+}
+
+.keepShopping {
+  @include button-reset;
+  margin-top: $space-4;
+  padding: $space-3 $space-5;
+  border-radius: $radius-pill;
+  font-weight: $weight-semibold;
+  color: #fff;
+  background: $color-accent;
+
+  &:hover {
+    background: $color-accent-dark;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Summary -----------------------------------------------------------------
+.summary {
+  border-top: 1px solid $color-line;
+  padding: $space-5;
+  background: $color-surface;
+}
+
+.bill {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  margin-bottom: $space-4;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: $text-sm;
+  color: $color-ink-soft;
+
+  dd {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.grand {
+  margin-top: $space-2;
+  padding-top: $space-3;
+  border-top: 1px solid $color-line;
+  font-size: $text-md;
+  font-weight: $weight-semibold;
+  color: $color-ink;
+}
+
+.checkout {
+  @include button-reset;
+  width: 100%;
+  padding: $space-4;
+  border-radius: $radius-md;
+  font-weight: $weight-semibold;
+  color: #fff;
+  background: $color-accent;
+  transition: background $dur-fast $ease-out;
+
+  &:hover {
+    background: $color-accent-dark;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.note {
+  margin-top: $space-3;
+  font-size: $text-xs;
+  color: $color-ink-faint;
+  text-align: center;
+}

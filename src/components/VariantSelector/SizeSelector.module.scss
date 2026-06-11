@@ -1,0 +1,86 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.label {
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $color-ink-soft;
+}
+
+.sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.size {
+  @include button-reset;
+  position: relative;
+  min-width: 52px;
+  height: 44px;
+  padding: 0 $space-3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $weight-medium;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid $color-line-strong;
+  border-radius: $radius-md;
+  background: $color-surface;
+  transition: border-color $dur-fast $ease-out, background $dur-fast $ease-out,
+    color $dur-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    border-color: $color-ink;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &[data-selected='true'] {
+    border-color: $color-ink;
+    background: $color-ink;
+    color: #fff;
+  }
+
+  // Low stock: keep selectable, hint with the corner dot (below).
+  &[data-stock='low_stock'] {
+    border-color: $color-warn;
+  }
+
+  // Sold out: struck through, muted, not interactive.
+  &[data-stock='sold_out'] {
+    color: $color-ink-faint;
+    background: $color-surface-alt;
+    border-color: $color-line;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+}
+
+.dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $color-warn;
+}
+
+.hint {
+  font-size: $text-sm;
+
+  &[data-stock='low_stock'] {
+    color: $color-warn;
+  }
+  &[data-stock='sold_out'] {
+    color: $color-sale;
+  }
+}

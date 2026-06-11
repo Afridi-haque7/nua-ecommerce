@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Nua — a small, fast storefront. Browse products, pick a variant, and check out."
+    />
+    <!-- Catalogue JSON comes from the Fake Store API; images are resized
+         through the wsrv.nl proxy — warm both connections early. -->
+    <link rel="preconnect" href="https://fakestoreapi.com" crossorigin />
+    <link rel="preconnect" href="https://wsrv.nl" />
+    <title>Nua Store</title>
+    <style>
+      /* Critical CSS for the static app shell below. The shell paints before
+         the React bundle executes and is replaced by the app's identical
+         skeleton on mount — dimensions mirror ProductCardSkeleton /
+         ProductDetailSkeleton so the swap causes zero layout shift. */
+      body {
+        margin: 0;
+        background: #f6f7f9;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      /* Real text (not gray boxes) so the shell registers as first
+         contentful paint; styles mirror Navbar/ProductListing modules. */
+      .s-nav { position: sticky; top: 0; height: 64px; background: #fff; border-bottom: 1px solid #e6e8eb; }
+      .s-nav-in { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 100%; display: flex; align-items: center; }
+      .s-brand { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: #1a1a1a; }
+      .s-mark { color: #1f6f5c; font-size: 16px; margin-right: 8px; }
+      .s-b { background: #eef0f3; border-radius: 6px; }
+      .s-page { max-width: 1200px; margin: 0 auto; padding: 48px 24px 64px; }
+      .s-hero { margin-bottom: 32px; }
+      .s-h1 { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: #1a1a1a; margin: 0; }
+      .s-sub { font-size: 16px; line-height: 1.5; color: #555a5e; margin: 8px 0 0; }
+      .s-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+      .s-card { background: #fff; border: 1px solid #e6e8eb; border-radius: 16px; overflow: hidden; }
+      .s-media { aspect-ratio: 1 / 1; background: #eef0f3; }
+      .s-body { border-top: 1px solid #e6e8eb; padding: 16px; }
+      .s-brand { width: 38%; height: 11px; margin-bottom: 8px; }
+      .s-line { height: 12px; margin-bottom: 8px; }
+      .s-line2 { width: 64%; }
+      .s-price { width: 45%; height: 14px; margin-top: 8px; }
+      .s-cta { height: 40px; border-radius: 10px; margin-top: 12px; }
+      .s-dpage { max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; }
+      .s-dgrid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 48px; align-items: start; }
+      .s-dmedia { aspect-ratio: 1 / 1; border-radius: 16px; }
+      .s-dinfo > * { margin-bottom: 16px; }
+      .s-short { width: 30%; height: 16px; }
+      .s-title { width: 80%; height: 28px; }
+      .s-dprice { width: 40%; height: 24px; }
+      .s-row { display: flex; gap: 12px; }
+      .s-sw { width: 36px; height: 36px; border-radius: 50%; }
+      .s-sz { width: 52px; height: 44px; border-radius: 10px; }
+      .s-dcta { height: 52px; border-radius: 10px; }
+      @media (max-width: 1024px) {
+        .s-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      }
+      @media (max-width: 767px) {
+        .s-page { padding: 24px 16px 32px; }
+        .s-h1 { font-size: 28px; }
+        .s-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .s-body { padding: 12px; }
+        .s-dpage { padding: 32px 16px; }
+        .s-dgrid { grid-template-columns: 1fr; gap: 24px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Two SPA bottlenecks, measured with unlighthouse:
+      //   1. LCP — the catalogue request only started after React mounted
+      //      (HTML → JS → API → image, fully serial).
+      //   2. FCP — nothing painted until the bundle executed.
+      // This inline script fixes both without SSR (the app stays statically
+      // hostable):
+      //   - kicks off the API request in parallel with the bundle download
+      //     (consumed by src/api/products.ts via window.__nuaEarlyFetch)
+      //   - preloads the likely LCP image(s) the moment the JSON arrives
+      //     (URL logic mirrors src/utils/image.ts — keep in sync)
+      //   - paints the route-aware skeleton shell defined in the <style> above.
+      (function () {
+        var API = 'https://fakestoreapi.com';
+        var m = location.pathname.match(/^\/product\/(\d+)\/?$/);
+
+        // 1. Early data fetch.
+        var url = m ? API + '/products/' + m[1] : API + '/products';
+        var promise = fetch(url).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        });
+        window.__nuaEarlyFetch = { url: url, promise: promise };
+
+        // 2. LCP image preload, as soon as we know the URL.
+        function preload(image, w) {
+          if (!image) return;
+          var href =
+            'https://wsrv.nl/?url=' +
+            encodeURIComponent(image.replace(/^https?:\/\//, '')) +
+            '&w=' + w + '&output=webp&q=80';
+          var l = document.createElement('link');
+          l.rel = 'preload';
+          l.as = 'image';
+          l.href = href;
+          l.fetchPriority = 'high';
+          document.head.appendChild(l);
+        }
+        promise
+          .then(function (data) {
+            if (m) preload(data && data.image, 800);
+            else if (Array.isArray(data))
+              for (var i = 0; i < 4; i++) preload(data[i] && data[i].image, 480);
+          })
+          .catch(function () {});
+
+        // 3. Static app shell.
+        var card =
+          '<div class="s-card"><div class="s-media"></div><div class="s-body">' +
+          '<div class="s-b s-brand"></div><div class="s-b s-line"></div>' +
+          '<div class="s-b s-line s-line2"></div><div class="s-b s-price"></div>' +
+          '<div class="s-b s-cta"></div></div></div>';
+        var shell =
+          '<div class="s-nav"><div class="s-nav-in">' +
+          '<span class="s-brand"><span class="s-mark">◆</span>Nua</span>' +
+          '</div></div>';
+        if (m) {
+          shell +=
+            '<div class="s-dpage"><div class="s-dgrid">' +
+            '<div class="s-b s-dmedia"></div><div class="s-dinfo">' +
+            '<div class="s-b s-short"></div><div class="s-b s-title"></div>' +
+            '<div class="s-b s-dprice"></div>' +
+            '<div class="s-row"><div class="s-b s-sw"></div><div class="s-b s-sw"></div><div class="s-b s-sw"></div><div class="s-b s-sw"></div></div>' +
+            '<div class="s-row"><div class="s-b s-sz"></div><div class="s-b s-sz"></div><div class="s-b s-sz"></div><div class="s-b s-sz"></div><div class="s-b s-sz"></div></div>' +
+            '<div class="s-b s-dcta"></div>' +
+            '</div></div></div>';
+        } else if (location.pathname === '/') {
+          // Same copy the app renders while loading — the React mount swaps
+          // identical text in place, so nothing visibly changes.
+          shell +=
+            '<div class="s-page"><div class="s-hero">' +
+            '<h1 class="s-h1">Everything in the shop</h1>' +
+            '<p class="s-sub">Loading the latest…</p></div>' +
+            '<div class="s-grid">' + new Array(9).join(card) + '</div></div>';
+        }
+        document.getElementById('root').innerHTML = shell;
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

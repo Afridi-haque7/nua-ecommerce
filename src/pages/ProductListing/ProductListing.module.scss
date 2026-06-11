@@ -1,0 +1,26 @@
+.page {
+  @include container;
+  padding-block: $space-7 $space-8;
+
+  @include below('mobile') {
+    padding-block: $space-5 $space-6;
+  }
+}
+
+.hero {
+  margin-bottom: $space-6;
+}
+
+.title {
+  font-size: $text-2xl;
+  letter-spacing: -0.02em;
+
+  @include below('mobile') {
+    font-size: $text-xl;
+  }
+}
+
+.subtitle {
+  margin-top: $space-2;
+  color: $color-ink-soft;
+}

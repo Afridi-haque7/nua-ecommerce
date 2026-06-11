@@ -1,0 +1,78 @@
+.page {
+  @include container;
+  padding-block: $space-6 $space-8;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: $space-7;
+
+  @include below('mobile') {
+    grid-template-columns: 1fr;
+    gap: $space-5;
+  }
+}
+
+.gallery {
+  aspect-ratio: 1 / 1;
+  border-radius: $radius-lg;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.line {
+  height: 16px;
+  border-radius: $radius-sm;
+}
+
+.short {
+  width: 30%;
+}
+.title {
+  width: 80%;
+  height: 28px;
+}
+.price {
+  width: 40%;
+  height: 24px;
+}
+.cta {
+  width: 100%;
+  height: 52px;
+  border-radius: $radius-md;
+  margin-top: $space-2;
+}
+
+.swatchRow {
+  display: flex;
+  gap: $space-3;
+  margin-top: $space-2;
+}
+
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.size {
+  width: 52px;
+  height: 44px;
+  border-radius: $radius-md;
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    $color-surface-sunk 0%,
+    $color-surface-alt 50%,
+    $color-surface-sunk 100%
+  );
+  background-size: 480px 100%;
+  animation: nua-shimmer 1.4s ease-in-out infinite;
+}

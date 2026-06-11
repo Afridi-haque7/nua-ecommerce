@@ -1,0 +1,47 @@
+@use 'abstracts' as *;
+@use 'reset';
+
+// Mirror the key Sass tokens as CSS custom properties so the reset and any
+// runtime styling can reach them.
+:root {
+  --color-ink: #{$color-ink};
+  --color-ink-soft: #{$color-ink-soft};
+  --color-line: #{$color-line};
+  --color-surface: #{$color-surface};
+  --color-surface-alt: #{$color-surface-alt};
+  --color-accent: #{$color-accent};
+
+  color-scheme: light;
+}
+
+body {
+  font-family: $font-sans;
+  font-size: $text-base;
+  color: $color-ink;
+  background: $color-surface-alt;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.2;
+  font-weight: $weight-semibold;
+}
+
+// App scaffold — sticky navbar + flexible page area.
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// Skeleton shimmer, shared by loading placeholders.
+@keyframes nua-shimmer {
+  0% {
+    background-position: -480px 0;
+  }
+  100% {
+    background-position: 480px 0;
+  }
+}

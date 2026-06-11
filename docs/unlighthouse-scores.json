@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/",
+    "score": 0.94,
+    "performance": 0.75,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+  },
+  {
+    "path": "/product/1",
+    "score": 0.95,
+    "performance": 0.81,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+  },
+  {
+    "path": "/product/12",
+    "score": 0.95,
+    "performance": 0.81,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+  },
+  {
+    "path": "/product/18",
+    "score": 0.95,
+    "performance": 0.81,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+  },
+  {
+    "path": "/product/3",
+    "score": 0.95,
+    "performance": 0.81,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+  },
+  {
+    "path": "/product/7",
+    "score": 0.95,
+    "performance": 0.79,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1
+  }
+]

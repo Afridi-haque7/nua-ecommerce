@@ -1,0 +1,48 @@
+.price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: $space-2;
+  white-space: nowrap;
+}
+
+.current,
+.sale {
+  font-weight: $weight-semibold;
+  color: $color-ink;
+}
+
+.sale {
+  color: $color-sale;
+}
+
+.original {
+  color: $color-ink-faint;
+  text-decoration: line-through;
+  font-weight: $weight-regular;
+}
+
+.badge {
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  color: $color-sale;
+  background: $color-sale-soft;
+  padding: 2px $space-2;
+  border-radius: $radius-pill;
+}
+
+// Sizes ---------------------------------------------------------------------
+.sm {
+  font-size: $text-base;
+
+  .original {
+    font-size: $text-sm;
+  }
+}
+
+.lg {
+  font-size: $text-xl;
+
+  .original {
+    font-size: $text-md;
+  }
+}

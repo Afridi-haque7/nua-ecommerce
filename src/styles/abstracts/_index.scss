@@ -1,0 +1,4 @@
+// Single entry point for design tokens + mixins.
+// Injected into every *.module.scss through Vite's css.preprocessorOptions.
+@forward 'variables';
+@forward 'mixins';

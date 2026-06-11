@@ -1,0 +1,39 @@
+.wrap {
+  @include container;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: $space-3;
+  padding-block: $space-8;
+}
+
+.code {
+  font-size: $text-2xl;
+  font-weight: $weight-bold;
+  color: $color-accent;
+}
+
+.title {
+  font-size: $text-xl;
+}
+
+.message {
+  color: $color-ink-soft;
+  max-width: 360px;
+}
+
+.cta {
+  margin-top: $space-3;
+  padding: $space-3 $space-5;
+  border-radius: $radius-pill;
+  font-weight: $weight-semibold;
+  color: #fff;
+  background: $color-accent;
+
+  &:hover {
+    background: $color-accent-dark;
+  }
+}

@@ -1,0 +1,160 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: $color-surface;
+  border: 1px solid $color-line;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: border-color $dur-base $ease-out, box-shadow $dur-base $ease-out,
+    transform $dur-base $ease-out;
+
+  &:hover {
+    border-color: $color-line-strong;
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
+// The media box is a LOCKED square. The image is absolutely positioned so its
+// intrinsic size can never stretch the box — in a column flexbox, an in-flow
+// portrait image would override `aspect-ratio` via min-height:auto and make
+// every card's image area a different height.
+.media {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: $color-surface;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    // Uniform breathing room that scales with the card.
+    padding: 9%;
+    mix-blend-mode: multiply; // drops the white product-shot backgrounds
+    transition: transform $dur-slow $ease-out;
+  }
+}
+
+.card:hover .media img {
+  transform: scale(1.045);
+}
+
+.saleTag {
+  position: absolute;
+  z-index: 1;
+  top: $space-3;
+  left: $space-3;
+  font-size: $text-xs;
+  font-weight: $weight-semibold;
+  color: #fff;
+  background: $color-sale;
+  padding: 2px $space-2;
+  border-radius: $radius-pill;
+}
+
+// Body — fixed-height rows so every card lines up exactly:
+// brand (1 line) / title (exactly 2 lines) / price row / full-width CTA.
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: $space-4;
+  border-top: 1px solid $color-line;
+
+  @include below('mobile') {
+    padding: $space-3;
+  }
+}
+
+.brand {
+  font-size: 11px;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  color: $color-ink-faint;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: $space-1;
+}
+
+.title {
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  line-height: 1.4;
+  height: 2.8em; // exactly two lines, even for one-line titles
+  @include line-clamp(2);
+
+  a:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-2;
+  margin-top: $space-3;
+  white-space: nowrap;
+}
+
+.rating {
+  font-size: $text-xs;
+  color: $color-ink-soft;
+
+  @include below('mobile') {
+    display: none; // keep the price row on one line on narrow cards
+  }
+}
+
+.quickAdd {
+  @include button-reset;
+  margin-top: $space-3;
+  width: 100%;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-1;
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  color: $color-accent;
+  background: $color-accent-soft;
+  border-radius: $radius-md;
+  transition: background $dur-fast $ease-out, color $dur-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    background: $color-accent;
+    color: #fff;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &[data-status='success'] {
+    color: $color-success;
+    background: $color-accent-soft;
+  }
+
+  &[data-status='error'] {
+    color: $color-sale;
+    background: $color-sale-soft;
+  }
+
+  // Sold-out (disabled, idle) styling.
+  &:disabled[data-status='idle'] {
+    color: $color-ink-faint;
+    background: $color-surface-sunk;
+  }
+}

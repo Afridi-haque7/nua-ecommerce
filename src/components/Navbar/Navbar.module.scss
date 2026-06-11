@@ -1,0 +1,72 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: $z-navbar;
+  height: $navbar-height;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid $color-line;
+}
+
+.inner {
+  @include container;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $text-lg;
+  font-weight: $weight-bold;
+  letter-spacing: -0.02em;
+  color: $color-ink;
+}
+
+.mark {
+  color: $color-accent;
+  font-size: $text-base;
+}
+
+.cartButton {
+  @include button-reset;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-pill;
+  color: $color-ink;
+  transition: background $dur-fast $ease-out;
+
+  &:hover {
+    background: $color-surface-sunk;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: $weight-bold;
+  line-height: 1;
+  color: #fff;
+  background: $color-accent;
+  border-radius: $radius-pill;
+  border: 2px solid $color-surface;
+}

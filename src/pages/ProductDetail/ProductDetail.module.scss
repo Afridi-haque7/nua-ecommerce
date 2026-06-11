@@ -1,0 +1,195 @@
+.page {
+  @include container;
+  padding-block: $space-5 $space-8;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $text-sm;
+  color: $color-ink-soft;
+  margin-bottom: $space-5;
+}
+
+.crumbLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: $color-ink-soft;
+
+  &:hover {
+    color: $color-ink;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.crumbSep {
+  color: $color-line-strong;
+}
+
+.crumbCurrent {
+  text-transform: capitalize;
+}
+
+// Two-column on desktop, single column on mobile (spec).
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: $space-7;
+  align-items: start;
+
+  @include below('mobile') {
+    grid-template-columns: 1fr;
+    gap: $space-5;
+  }
+}
+
+.galleryCol {
+  position: sticky;
+  top: calc(#{$navbar-height} + #{$space-4});
+
+  @include below('mobile') {
+    position: static;
+  }
+}
+
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.brand {
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $color-accent;
+}
+
+.title {
+  font-size: $text-xl;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+  flex-wrap: wrap;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  font-size: $text-sm;
+  font-weight: $weight-medium;
+  color: $color-warn;
+  white-space: nowrap;
+}
+
+.ratingCount {
+  color: $color-ink-faint;
+  font-weight: $weight-regular;
+}
+
+.variants {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+  padding-block: $space-5;
+  border-block: 1px solid $color-line;
+}
+
+.purchase {
+  display: flex;
+  gap: $space-3;
+  align-items: stretch;
+}
+
+.addBtn {
+  @include button-reset;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  min-height: 52px;
+  padding-inline: $space-5;
+  border-radius: $radius-md;
+  font-size: $text-base;
+  font-weight: $weight-semibold;
+  color: #fff;
+  background: $color-accent;
+  transition: background $dur-fast $ease-out, opacity $dur-fast $ease-out;
+
+  &:hover:not(:disabled) {
+    background: $color-accent-dark;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  // Sold out (disabled + idle).
+  &:disabled[data-status='idle'] {
+    background: $color-surface-sunk;
+    color: $color-ink-faint;
+  }
+
+  &[data-status='success'] {
+    background: $color-success;
+  }
+}
+
+.addError {
+  font-size: $text-sm;
+  color: $color-sale;
+  background: $color-sale-soft;
+  padding: $space-2 $space-3;
+  border-radius: $radius-sm;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  color: $color-ink-soft;
+  line-height: 1.6;
+}
+
+.descHeading {
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $color-ink;
+}
+
+// Error / not-found wrapper.
+.stateWrap {
+  @include container;
+  padding-block: $space-8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backLink {
+  color: $color-accent;
+  font-weight: $weight-semibold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

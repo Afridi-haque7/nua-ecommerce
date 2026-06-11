@@ -1,0 +1,38 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $space-3;
+  padding: $space-8 $space-4;
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+.title {
+  font-size: $text-lg;
+  font-weight: $weight-semibold;
+}
+
+.message {
+  color: $color-ink-soft;
+}
+
+.retry {
+  @include button-reset;
+  margin-top: $space-2;
+  padding: $space-3 $space-5;
+  border-radius: $radius-pill;
+  font-weight: $weight-semibold;
+  color: #fff;
+  background: $color-accent;
+  transition: background $dur-fast $ease-out;
+
+  &:hover {
+    background: $color-accent-dark;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

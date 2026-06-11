@@ -1,0 +1,18 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  // One gap value per breakpoint, identical on both axes, so the rhythm of
+  // the grid never drifts between rows and columns.
+  gap: $space-5;
+
+  @include below('tablet') {
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-4;
+  }
+
+  @include below('mobile') {
+    // Two-up on phones reads better than a single tall column for a catalogue.
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-3;
+  }
+}
