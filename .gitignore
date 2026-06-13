@@ -12,12 +12,6 @@ dist
 dist-ssr
 *.local
 
-# Claude Code
-.claude/
-
-# Tests
-tests/
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -32,11 +26,6 @@ tests/
 # Test / coverage
 coverage
 
-# Build / tooling caches
-*.tsbuildinfo
-.vercel
-.cache
-.eslintcache
 # Heavy perf-report artifacts (screenshots + score JSON stay committed;
 # regenerate these with `npm run preview` + `npm run perf`)
 docs/lighthouse-report.html
