@@ -4,7 +4,7 @@ A small, fast storefront built as a production-quality mini e-commerce app:
 browse a catalogue, open a product, pick a colour/size variant, and manage a
 cart that persists across refreshes.
 
-**Live demo:** _add your deployment URL here_ &nbsp;·&nbsp; built with React 18 +
+**Live demo:** [Nua Ecommerce](https://nua-ecommerce-gules.vercel.app/) &nbsp;·&nbsp; built with React 18 +
 TypeScript + Vite + SCSS modules.
 
 > The product catalogue comes from the [Fake Store API](https://fakestoreapi.com).
@@ -56,6 +56,9 @@ right-side drawer (overlay, focus-trap, `Esc` to close, body-scroll lock). The
 drawer lists each line with thumbnail, name, variant, unit price and an inline
 quantity stepper / remove control, and a bill summary (subtotal, shipping,
 total). **Cart state persists in `localStorage`** and survives a refresh.
+Checkout isn't wired to a payment provider, so the button closes the drawer and
+raises a toast explaining it's a demo (`ToastContext` + `ToastViewport`, an
+accessible `aria-live` notification stack).
 
 **Add to cart is wired to a mock async endpoint** (`src/api/cart.ts`) with
 latency and a simulated ~15% random failure, so the button exercises real
@@ -180,5 +183,6 @@ the catch-all rewrite so deep links (e.g. `/product/3?color=slate&size=m`) resol
   image falls back to the original API URL on error, but a full outage of both
   hosts would leave empty squares. A self-hosted resizer would remove the
   dependency.
-- **Mock checkout.** The Checkout button and the random add-to-cart failure are
-  illustrative; there's no backend.
+- **Mock checkout.** There's no backend, so Checkout raises a "payment not
+  integrated" toast rather than starting a real flow; the random add-to-cart
+  failure is likewise illustrative.

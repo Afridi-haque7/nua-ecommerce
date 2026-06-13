@@ -42,7 +42,9 @@ ceremony here.
 
 ## With more time
 
-- A real toast system instead of the button's transient success/error label.
+- The add-to-cart feedback is still the button's transient success/error label; with
+  more time I'd route those through the toast system added for checkout (`ToastContext`)
+  for one consistent notification surface.
 - The unlighthouse scan pushed me to proxy the API's 300–700 KB PNGs through wsrv.nl
   (resized webp, ~10% of the bytes, with a fallback to the original URL). With more time
   I'd add `srcset` widths per breakpoint and self-host the resizer instead of depending

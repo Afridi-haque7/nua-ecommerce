@@ -1,0 +1,110 @@
+.viewport {
+  position: fixed;
+  z-index: $z-toast; // above the cart drawer
+  right: $space-5;
+  bottom: $space-5;
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  width: 360px;
+  max-width: calc(100vw - #{$space-5} * 2);
+  pointer-events: none; // let clicks fall through the empty gaps
+
+  @include below('mobile') {
+    right: $space-3;
+    left: $space-3;
+    bottom: $space-3;
+    width: auto;
+    max-width: none;
+  }
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  background: $color-surface;
+  border: 1px solid $color-line;
+  border-left: 3px solid $color-ink-faint;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+  animation: toast-in $dur-base $ease-out;
+
+  &[data-variant='success'] {
+    border-left-color: $color-success;
+    .icon {
+      color: $color-success;
+    }
+  }
+  &[data-variant='error'] {
+    border-left-color: $color-sale;
+    .icon {
+      color: $color-sale;
+    }
+  }
+  &[data-variant='info'] {
+    border-left-color: $color-accent;
+    .icon {
+      color: $color-accent;
+    }
+  }
+}
+
+.icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  margin-top: 1px;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: $text-sm;
+  font-weight: $weight-semibold;
+  color: $color-ink;
+  margin-bottom: 2px;
+}
+
+.message {
+  font-size: $text-sm;
+  line-height: 1.45;
+  color: $color-ink-soft;
+}
+
+.dismiss {
+  @include button-reset;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin: -2px -4px 0 0;
+  border-radius: $radius-sm;
+  color: $color-ink-faint;
+  transition: background $dur-fast $ease-out, color $dur-fast $ease-out;
+
+  &:hover {
+    background: $color-surface-sunk;
+    color: $color-ink;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

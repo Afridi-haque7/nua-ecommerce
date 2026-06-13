@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useCart } from '@/stores/CartContext';
+import { useToast } from '@/stores/ToastContext';
 import { formatPrice } from '@/utils/format';
 import { CloseIcon, CartIcon } from '@/components/common/Icons';
 import { CartLineItem } from './CartLineItem';
@@ -7,6 +8,7 @@ import styles from './CartDrawer.module.scss';
 
 export function CartDrawer() {
   const { items, itemCount, totals, isDrawerOpen, closeDrawer } = useCart();
+  const { showToast } = useToast();
   const panelRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   // Remember what had focus so we can restore it when the drawer closes.
@@ -52,6 +54,16 @@ export function CartDrawer() {
       lastFocused.current?.focus?.();
     };
   }, [isDrawerOpen, closeDrawer]);
+
+  // Payment isn't wired up — close the drawer and surface a clear notice
+  // rather than silently doing nothing or sending the user to a dead page.
+  const handleCheckout = () => {
+    closeDrawer();
+    showToast('Payment isn’t integrated in this demo yet.', {
+      title: 'Checkout unavailable',
+      variant: 'info',
+    });
+  };
 
   return (
     <>
@@ -137,7 +149,11 @@ export function CartDrawer() {
                     <dd>{formatPrice(totals.grandTotal)}</dd>
                   </div>
                 </dl>
-                <button type="button" className={styles.checkout}>
+                <button
+                  type="button"
+                  className={styles.checkout}
+                  onClick={handleCheckout}
+                >
                   Checkout
                 </button>
                 <p className={styles.note}>
